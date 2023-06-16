@@ -1,0 +1,271 @@
+﻿@model IEnumerable<NimapWebApp.Models.clsProduct>
+
+@{
+    ViewData["Title"] = "GetList";
+}
+
+
+
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+        .pagination {
+            display: inline-block;
+        }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 8px 16px;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+            }
+
+                .pagination a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                    border: 1px solid #4CAF50;
+                }
+
+                .pagination a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+    </style>
+</head>
+<body>
+
+    <h1>GetList</h1>
+    @*<h1>@Model.Count()</h1>*@
+    <p>
+        <a asp-action="Index">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Productid)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductColor)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Productid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductColor)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Update", "Details", new {  id=item.Productid  }) |
+                        @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Productid /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a >&laquo;</a>
+        <a id="myHref1" href="@Url.Action("GetListPagination", "Category", new { offseVal = 0, rowlim = 10 })" >1</a>
+        <a id="myHref2"  href="@Url.Action("GetListPagination", "Category", new { offseVal = 10, rowlim = 10 })">2</a>
+        <a id="myHref3"  href="@Url.Action("GetListPagination", "Category", new { offseVal = 20, rowlim = 10 })">3</a>
+        <a id="myHref4"  href="@Url.Action("GetListPagination", "Category", new { offseVal = 30, rowlim = 10 })">4</a>
+        <a id="myHref5"  href="@Url.Action("GetListPagination", "Category", new { offseVal = 40, rowlim = 10 })">5</a>
+        <a id="myHref6"  href="@Url.Action("GetListPagination", "Category", new { offseVal = 50, rowlim = 10 })">6</a>
+        <a id="myHref7" href="@Url.Action("GetListPagination", "Category", new { offseVal = 60, rowlim = 10 })">7</a>
+        <a >&raquo;</a>
+
+@*        <a>&laquo;</a>
+        <a id="myHref1" class="active">1</a>
+        <a id="myHref2">2</a>
+        <a id="myHref3">3</a>
+        <a id="myHref4">4</a>
+        <a id="myHref5">5</a>
+        <a id="myHref6">6</a>
+        <a href="@Url.Action("GetListPagination", "Category", new { offseVal = 10, rowlim = 10 })">7</a>
+        <a>&raquo;</a>
+*@
+        
+        
+        
+        
+        
+        
+    </div>
+
+
+    <script>
+
+
+        $(document).ready(function () {
+           // alert(123);
+            if ('@ViewBag.data' != null) {
+                $('#' + '@ViewBag.data').addClass('active');
+            }
+        });
+
+
+
+        $("#myHref1").on('click', function () {
+          
+            $("#myHref1").addClass("active");
+            $("#myHref2").removeClass("active");
+            $("#myHref3").removeClass("active");
+            $("#myHref4").removeClass("active");
+            $("#myHref5").removeClass("active");
+            $("#myHref6").removeClass("active");
+
+            $.ajax({
+                type: 'GET',
+                url: '/Category/GetListPagination',
+                data: {
+                    offseVal: 1,
+                    rowlim: 10,
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                    
+                }
+            });
+           
+        });
+        $("#myHref2").on('click', function () {
+            $("#myHref1").removeClass("active");
+            $("#myHref2").addClass("active");
+            $("#myHref3").removeClass("active");
+            $("#myHref4").removeClass("active");
+            $("#myHref5").removeClass("active");
+            $("#myHref6").removeClass("active");
+
+            $.ajax({
+                type: 'GET',
+                url: '/Category/GetListPagination',
+                data: {
+                    offseVal: 10,
+                    rowlim: 10,
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+
+        });
+        $("#myHref3").on('click', function () {
+            $("#myHref1").removeClass("active");
+            $("#myHref2").removeClass("active");
+            $("#myHref3").addClass("active");
+            $("#myHref4").removeClass("active");
+            $("#myHref5").removeClass("active");
+            $("#myHref6").removeClass("active");
+            $.ajax({
+                type: 'GET',
+                url: '/Category/GetListPagination',
+                data: {
+                    offseVal: 20,
+                    rowlim: 10,
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+
+        });
+        $("#myHref4").on('click', function () {
+            $("#myHref1").removeClass("active");
+            $("#myHref2").removeClass("active");
+            $("#myHref3").removeClass("active");
+            $("#myHref4").addClass("active");
+            $("#myHref5").removeClass("active");
+            $("#myHref6").removeClass("active");
+            $.ajax({
+                type: 'GET',
+                url: '/Category/GetListPagination',
+                data: {
+                    offseVal: 30,
+                    rowlim: 10,
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+
+        });
+        $("#myHref5").on('click', function () {
+            $("#myHref1").removeClass("active");
+            $("#myHref2").removeClass("active");
+            $("#myHref3").removeClass("active");
+            $("#myHref4").removeClass("active");
+            $("#myHref5").addClass("active");
+            $("#myHref6").removeClass("active");
+            $.ajax({
+                type: 'GET',
+                url: '/Category/GetListPagination',
+                data: {
+                    offseVal: 40,
+                    rowlim: 10,
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+
+        });
+        $("#myHref6").on('click', function () {
+            $("#myHref1").removeClass("active");
+            $("#myHref2").removeClass("active");
+            $("#myHref3").removeClass("active");
+            $("#myHref4").removeClass("active");
+            $("#myHref5").removeClass("active");
+            $("#myHref6").addClass("active");
+            $.ajax({
+                type: 'GET',
+                url: '/Category/GetListPagination',
+                data: {
+                    offseVal: 50,
+                    rowlim: 10,
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (r) {
+                    //alert(r + " record(s) inserted.");
+                }
+            });
+
+        });
+
+
+
+    </script>
+</body>
+</html>
